@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls.defaults import patterns, include, url
+from tastypie.api import Api
+from users.api import ClassGroupResource, SecondLanguageGroupResource, ThirdLanguageGroupResource, UserResource
+from clubs.api import ClubCategoryResource, ClubResource
+from schedule.api import EventCategoryResource, EventResource
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
+v1_api = Api(api_name='v1')
+v1_api.register(ClassGroupResource())
+v1_api.register(SecondLanguageGroupResource())
+v1_api.register(ThirdLanguageGroupResource())
+v1_api.register(UserResource())
+v1_api.register(ClubCategoryResource())
+v1_api.register(ClubResource())
+v1_api.register(EventCategoryResource())
+v1_api.register(EventResource())
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'api.views.home', name='home'),
     # url(r'^api/', include('api.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(v1_api.urls)),
 )
