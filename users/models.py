@@ -4,10 +4,13 @@ from clubs.models import Club
 
 # Create your models here.
 class AbstractGroup(models.Model):
-    label = models.CharField(max_length=8)
-
     class Meta:
         abstract = True
+
+    label = models.CharField(max_length=8)
+
+    def __unicode__(self):
+        return self.label
 
 class ClassGroup(AbstractGroup):
     pass
@@ -34,3 +37,6 @@ class User(models.Model):
     phone_number = models.CharField(max_length=10, blank=True)
     nickname = models.CharField(max_length=20, blank=True)
     clubs = models.ManyToManyField(Club, related_name='users')
+
+    def __unicode__(self):
+        return "%s %s" % self.first_name, self.last_name

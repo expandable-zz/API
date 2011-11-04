@@ -7,6 +7,9 @@ class EventCategory(models.Model):
     description = models.TextField(blank=True)
     color = models.CharField(max_length=6, unique=True)
 
+    def __unicode__(self):
+        return self.label
+
 class Event(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(blank=True)
@@ -21,3 +24,6 @@ class Event(models.Model):
     canceled = models.BooleanField(default=False)
     price = models.IntegerField(default=0)
     minors_allowed = models.BooleanField()
+
+    def __unicode__(self):
+        return self.title

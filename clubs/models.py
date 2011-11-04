@@ -6,6 +6,9 @@ class ClubCategory(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.TextField(blank=True)
 
+    def __unicode__(self):
+        return self.name
+
 class Club(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.TextField(blank=True)
@@ -13,3 +16,6 @@ class Club(models.Model):
     logo = models.ImageField(upload_to='logos', max_length=20)
     website = models.CharField(max_length=40, unique=True)
     api_key = models.CharField(max_length=40, unique=True)
+
+    def __unicode__(self):
+        return self.name
