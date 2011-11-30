@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from clubs.models import Club
+from system.models import Rank
+
+
+class Group(models.Model):
+    rank = models.ForeignKey(Rank, related_name='groups')
+    club = models.ForeignKey(Club, related_name='groups')
+
+    def __unicode__(self):
+        return self.pk
 
 # Create your models here.
 class AbstractGroup(models.Model):
@@ -36,7 +45,8 @@ class User(models.Model):
     third_group = models.ForeignKey(ThirdLanguageGroup, null=True, related_name='users')
     phone_number = models.CharField(max_length=10, blank=True)
     nickname = models.CharField(max_length=20, blank=True)
-    clubs = models.ManyToManyField(Club, related_name='users')
+    title = models.CharField(max_length=48, blank=True)
+    groups = models.ManyToManyField(Group, related_name='users')
 
     def __unicode__(self):
         return u"%s %s" % (self.first_name, self.last_name)

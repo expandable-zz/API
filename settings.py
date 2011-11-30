@@ -124,9 +124,12 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'tastypie',
+    'system',
     'users',
     'clubs',
+    'publications',
     'schedule',
+    'news',
 )
 
 # A sample logging configuration. The only tangible logging
