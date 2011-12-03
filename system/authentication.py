@@ -10,9 +10,9 @@ class ApiAuthentication(Authentication):
 
     def is_authenticated(self, request, **kwargs):
 
-        api_key = request.META.get('HTTP_API_KEY', 'nokey')
+        api_key = request.META.get('HTTP_API_KEY')
 
-        if api_key == 'nokey':
+        if api_key == None:
             return self._unauthorized()
 
         try:

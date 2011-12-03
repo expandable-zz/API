@@ -18,13 +18,15 @@ class Tag(models.Model):
         return self.name
 
 class Publication(models.Model):
+    title = models.CharField(max_length=64, unique=True)
     post_date = models.DateTimeField()
     edit_date = models.DateTimeField(null=True)
     author =  models.ForeignKey(User, related_name='publications')
     visibility = models.IntegerField(choices=VISIBILITY)
+    tags = models.ManyToManyField(Tag, related_name='publications')
 
     def __unicode__(self):
-        return self.pk
+        return self.title
 
 
 class Comment(models.Model):

@@ -12,7 +12,6 @@ class EventCategory(models.Model):
         return self.label
 
 class Event(Publication):
-    title = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     category = models.ForeignKey(EventCategory, related_name='events')
     url = models.URLField(blank=True)
