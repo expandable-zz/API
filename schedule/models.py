@@ -2,11 +2,34 @@
 from django.db import models
 from publications.models import Publication
 
-# Create your models here.
+EVENT_STATUS = (
+    ('requested', 'Requested'),
+    ('confirmed', 'Confirmed'),
+    ('canceled', 'Canceled')
+)
+
+LOCATION_TYPE = (
+    ('other','Other'),
+    ('efrei','EFREI'),
+    ('class','Classroom'),
+    ('lect','Lecture'),
+    ('club','Club')
+)
+
+class EventLocation(models.Model):
+    label = models.CharField(max_length=64)
+    type = models.CharField(max_length=6, choices=LOCATION_TYPE)
+    default_status = models.CharField(max_length=10, choices=EVENT_STATUS)
+
+    def __unicode__(self):
+        return self.label
+
+
 class EventCategory(models.Model):
     label = models.CharField(max_length=20, unique=True)
     description = models.TextField(blank=True)
     color = models.CharField(max_length=6, unique=True)
+    default_status = models.CharField(max_length=10, choices=EVENT_STATUS)
 
     def __unicode__(self):
         return self.label
@@ -15,14 +38,12 @@ class Event(Publication):
     description = models.TextField(blank=True)
     category = models.ForeignKey(EventCategory, related_name='events')
     url = models.URLField(blank=True)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
+    time_start = models.DateTimeField()
+    time_end = models.DateTimeField()
     location = models.TextField(blank=True)
     clubs = models.ManyToManyField('clubs.Club', related_name='events', blank=True)
-    validated = models.NullBooleanField(default=None)
-    canceled = models.BooleanField(default=False)
     price = models.IntegerField(default=0)
-    minors_allowed = models.BooleanField()
+    status = models.CharField(max_length=10, choices=EVENT_STATUS)
 
     def __unicode__(self):
         return self.title

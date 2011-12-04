@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from system.models import VISIBILITY
 from users.models import User
 
-VISIBILITY = (
-    (0, 'Public'),
-    (1, 'Hidden'),
-    (2, 'Restricted'),
-    (3, 'Rank Restricted'),
-    (4, 'Club Restricted')
-    )
 
 class Tag(models.Model):
     name = models.CharField(max_length=16, unique=True)
@@ -36,4 +30,4 @@ class Comment(models.Model):
     publication = models.ForeignKey(Publication, related_name='comments')
 
     def __unicode__(self):
-        return self.pk
+        return u"%s - %s" % (self.author,self.content[0:32])
