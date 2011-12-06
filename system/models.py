@@ -10,16 +10,15 @@ VISIBILITY = (
     )
 
 class Permission(models.Model):
-    name = models.CharField(max_length=32, unique=True)
-    label = models.CharField(max_length=64)
-    is_global = models.BooleanField(default=False)
+    name = models.CharField(max_length=48, unique=True)
+    label = models.CharField(max_length=64, blank=True)
 
     def __unicode__(self):
         return self.name
 
 class Rank(models.Model):
     name = models.CharField(max_length=20, unique=True)
-    parent = models.ForeignKey('self', blank=True)
+    parent = models.ForeignKey('self', null=True)
     permissions = models.ManyToManyField(Permission, related_name='ranks', null=True)
 
     def __unicode__(self):
@@ -36,13 +35,22 @@ class Application(models.Model):
     def __unicode__(self):
         return self.name
 
+    def has_authorization(self, name, club = None):
+        for permission in self.permissions.iterator():
+            if permission.name == ('global.%s' % name):
+                return True
+
+            if permission.name == name and club == self.club:
+                return True
+        return False
+
 class Session(models.Model):
     token = models.CharField(max_length=40, unique=True)
     parent = models.ForeignKey('self', null=True)
     time_start = models.DateTimeField()
     time_end = models.DateTimeField()
     user = models.ForeignKey('users.User', related_name='sessions')
-    app = models.ForeignKey(Application, related_name='sessions')
+    application = models.ForeignKey(Application, related_name='sessions')
 
     def __unicode__(self):
         return self.token

@@ -52,6 +52,17 @@ class User(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.first_name, self.last_name)
 
+    def has_authorization(self, name, club = None):
+        for group in self.groups.iterator():
+            for permission in group.rank.permissions.iterator():
+                if permission.name == ('global.%s' % name):
+                    return True
+
+                if isinstance(club,Club):
+                    if permission.name == name and club == group.club:
+                        return True
+        return False
+
 class UserInfo(models.Model):
     name = models.CharField(max_length=16)
     value = models.CharField(max_length=64)

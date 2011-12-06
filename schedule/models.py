@@ -10,7 +10,7 @@ EVENT_STATUS = (
 
 LOCATION_TYPE = (
     ('other','Other'),
-    ('efrei','EFREI'),
+    ('efrei','Efrei'),
     ('class','Classroom'),
     ('lect','Lecture'),
     ('club','Club')

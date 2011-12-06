@@ -24,14 +24,6 @@ class ThirdLanguageGroupResource(ModelResource):
 
 class UserResource(ModelResource):
 
-    class_group = fields.ForeignKey(ClassGroupResource, 'class_group')
-    second_group = fields.ForeignKey(SecondLanguageGroupResource, 'second_group', null=True)
-    third_group = fields.ForeignKey(ThirdLanguageGroupResource, 'third_group', null=True)
-
-    class_group_name = fields.CharField(attribute='class_group')
-    second_group_name = fields.CharField(attribute='second_group', null=True)
-    third_group_name = fields.CharField(attribute='third_group', null=True)
-
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
